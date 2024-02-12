@@ -42,7 +42,7 @@ fn impl_typesense_collection(item: ItemStruct) -> syn::Result<TokenStream> {
 
     let typesense_fields = fields
         .iter()
-        .map(|field| to_typesense_field_type(field))
+        .map(to_typesense_field_type)
         .collect::<syn::Result<Vec<_>>>()?;
 
     let gen = quote! {
@@ -385,7 +385,7 @@ fn to_typesense_field_type(field: &Field) -> syn::Result<proc_macro2::TokenStrea
         (&field.ty, quote!(None))
     };
     let typesense_field_type = quote!(
-            <#ty as typesense::field::ToTypesenseField>::to_typesense_type()
+            <#ty as typesense::field::ToTypesenseField>::to_typesense_type().to_string()
     );
     Ok(quote! {
         typesense::field::FieldBuilder::new()

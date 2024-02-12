@@ -16,7 +16,7 @@ jobs:
           { os: "ubuntu", target: "wasm32-unknown-unknown" },
         ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Cache .cargo and target
         uses: actions/cache@v2
         with:
@@ -38,7 +38,7 @@ jobs:
           command: install
           args: --features standalone -- httpmock
       - name: Run httpmock
-        run: httpmock --expose --static-mock-dir=./mocks &
+        run: httpmock --expose --mock-files-dir=./mocks &
       - name: Install test runner for wasm
         if: matrix.platform.target == 'wasm32-unknown-unknown'
         run:  curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
